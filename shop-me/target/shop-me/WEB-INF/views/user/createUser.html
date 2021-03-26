@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout::head"></head>
+
+<body>
+
+<div class="page-wrapper">
+    <th:block th:replace="layout:: header-mobile"></th:block>
+
+    <th:block th:replace="layout:: menu-sidebar"></th:block>
+
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <th:block th:replace="layout:: header-desktop"></th:block>
+
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12" th:if="${mess!=null}">
+                                    <div class="alert alert-success"><i th:text="${mess}"></i></div>
+                                </div>
+                            </div>
+                            <div class="card-header">
+                                <a th:href="@{/user/listUser}">
+                                    <button type="primary" class="btn btn-primary btn-sm">
+                                        <strong>Back to list user</strong>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Create Product</strong>
+                                </div>
+                                <div class="card-body card-block">
+                                    <form method="post" class="form-horizontal" th:action="@{/user/addUser}" th:object="${user}" enctype="multipart/form-data">
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label class=" form-control-label">Name</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="text" th:field="*{nameUser}"
+                                                       placeholder="Name"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label">Gmail</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="text"  th:field="*{gmailUser}"
+                                                       placeholder="gmail"
+                                                       class="form-control" multiple="multiple">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label">Nick name</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="text"  th:field="*{nickname}"
+                                                       placeholder="Nick Name"
+                                                       class="form-control">
+
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label">Image</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="file"  th:field="*{image}"
+                                                       placeholder="Image"
+                                                       class="form-control" multiple="multiple">
+
+                                                <input type="hidden" th:field="*{imageUrl}"
+                                                       placeholder="Name"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fa fa-dot-circle-o"></i> Save
+                                            </button>
+                                            <button type="reset" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-ban"></i> Reset
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="copyright">
+                                <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a
+                                        href="https://colorlib.com">Colorlib</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<footer th:replace="layout::footer"></footer>
+</body>
+</html>
