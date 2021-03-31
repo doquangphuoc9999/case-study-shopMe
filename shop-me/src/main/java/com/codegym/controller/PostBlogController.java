@@ -1,7 +1,9 @@
 package com.codegym.controller;
 
+import com.codegym.model.CategoryBlog;
 import com.codegym.model.PostBlog;
 import com.codegym.model.User;
+import com.codegym.service.impl.CategoryServiceImpl;
 import com.codegym.service.impl.PostBlogServiceImpl;
 import com.codegym.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 @Controller
@@ -30,9 +36,17 @@ public class PostBlogController {
     @Autowired
     private UserServiceImpl userService;
 
-    @ModelAttribute("user")
+    @Autowired
+    CategoryServiceImpl categoryService;
+
+    @ModelAttribute("listUser")
     public Iterable<User> listUsers(){
         return userService.selectAll();
+    }
+
+    @ModelAttribute("listCategory")
+    public Iterable<CategoryBlog> listCategory(Pageable pageable){
+       return categoryService.findAllByDeletedFalse(pageable);
     }
 
     @GetMapping("/listPost")
@@ -50,11 +64,15 @@ public class PostBlogController {
     }
 
     @PostMapping("/addPost")
-    public String addPost(@ModelAttribute("post") PostBlog postBlog, HttpServletRequest request,Model model) throws Exception {
+    public String addPost(@Valid@ModelAttribute("post") PostBlog postBlog, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes model) throws Exception {
+        new PostBlog().validate(postBlog, bindingResult);
+        if (bindingResult.hasFieldErrors()){
+            return "postBlog/addPost";
+        }
         String uploadRootPath = request.getServletContext().getRealPath("upload");
         File uploadRootDir = new File(uploadRootPath);
 
-        String uploadLocalPath = "E:\\Module-4\\New folder\\CaseStudyModule4\\CaseStudyM4\\shop-me\\src\\main\\webapp\\upload";
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
         File uploadLocalDir = new File(uploadLocalPath);
 
         // Tạo thư mục gốc upload nếu nó không tồn tại.
@@ -86,8 +104,8 @@ public class PostBlogController {
             }
         }
         postBlogService.save(postBlog);
-        model.addAttribute("mess","add is success");
-        return "postBlog/addPost";
+        model.addFlashAttribute("mess","add is success");
+        return "redirect:/postBlog/listPost";
     }
 
     @GetMapping("/{id}/view")
@@ -106,6 +124,59 @@ public class PostBlogController {
         if (postBlog != null){
             model.addAttribute("postBlog",postBlog);
             return "postBlog/editPost";
+        }
+        return "error";
+    }
+
+    @PostMapping("/editPost")
+    public String editPost(@ModelAttribute("postBlog") PostBlog postBlog,RedirectAttributes redirectAttributes,HttpServletRequest request, Model model) throws IOException {
+        String uploadRootPath = request.getServletContext().getRealPath("upload");
+        File uploadRootDir = new File(uploadRootPath);
+
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
+        File uploadLocalDir = new File(uploadLocalPath);
+
+        // Tạo thư mục gốc upload nếu nó không tồn tại.
+        if (!uploadRootDir.exists()){
+            uploadRootDir.mkdir();
+        }
+        CommonsMultipartFile[] files = postBlog.getImage();
+//        Map<File, String> uploadFile = new HashMap<>();
+        for (CommonsMultipartFile commonsMultipartFile : files){
+            // Tên file gốc tại Clien
+            String name = commonsMultipartFile.getOriginalFilename();
+            if (name != null && name.length() > 0){
+                // Tạo file tại Server
+                File severFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+
+                // Luồng ghi dữ liệu vào file trên Server
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(severFile));
+                stream.write(commonsMultipartFile.getBytes());
+                stream.close();
+
+                File localFile = new File(uploadLocalDir.getAbsolutePath() + File.separator + name);
+
+                // Luồng ghi dữ liệu vào file trên Server
+                BufferedOutputStream streamLocal = new BufferedOutputStream(new FileOutputStream(localFile));
+                streamLocal.write(commonsMultipartFile.getBytes());
+                streamLocal.close();
+
+                postBlog.setImageUrl(name);
+            }
+        }
+        postBlogService.save(postBlog);
+        redirectAttributes.addFlashAttribute("mess","Edit is success");
+        return "redirect:/postBlog/listPost";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+        PostBlog postBlog = postBlogService.findById(id).get();
+        if (postBlog != null){
+            postBlog.setDeleted(true);
+            postBlogService.save(postBlog);
+            redirectAttributes.addFlashAttribute("mess","Delete success");
+            return "redirect:/postBlog/listPost";
         }
         return "error";
     }

@@ -55,15 +55,43 @@
                                             <label class=" form-control-label">Image</label>
                                         </div>
                                         <div class="col-12 col-md-9">
-                                            <img style="width: 200px;" th:src="@{/upload/__${postBlog.imageUrl}__}" alt="Images">
+                                            <img style="" th:src="@{/upload/__${postBlog.imageUrl}__}" class="form-control" alt="Images">
                                         </div>
                                     </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label class=" form-control-label">Short content</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <textarea disabled th:text="${postBlog.shortContent}" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label class=" form-control-label">Full content</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                           <textarea rows="20" cols="80" disabled th:text="${postBlog.fullContent}" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label class=" form-control-label">Author</label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <input type="text" th:field="${postBlog.user.nameUser}" disabled class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label class=" form-control-label">Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" th:field="${postBlog.categoryBlog.nameCategory}" disabled class="form-control">
                                         </div>
                                     </div>
                                 </div>

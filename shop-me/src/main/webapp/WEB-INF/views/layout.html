@@ -31,6 +31,7 @@
     <link th:href="@{/assets/vendor/select2/select2.min.css}" rel="stylesheet" media="all">
     <link th:href="@{/assets/vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
 
+
     <!-- Main CSS-->
     <link th:href="@{/assets/css/theme.css}" rel="stylesheet" media="all">
 
@@ -79,12 +80,12 @@
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar">
                 <ul class="list-unstyled navbar__list">
+<!--                    <li class="has-sub">-->
+<!--                        <a class="js-arrow" th:href="@{/customer/list}">-->
+<!--                            <i class="fas fa-tachometer-alt"></i>Manager Customer</a>-->
+<!--                    </li>-->
                     <li class="has-sub">
-                        <a class="js-arrow" th:href="@{/listCustomer}">
-                            <i class="fas fa-tachometer-alt"></i>Manager Customer</a>
-                    </li>
-                    <li class="has-sub">
-                        <a class="js-arrow" th:href="@{/listProvince}">
+                        <a class="js-arrow" th:href="@{/province/listProvince}">
                             <i class="fas fa-tachometer-alt"></i>Manager Province</a>
                     </li>
                     <li class="has-sub">
@@ -184,6 +185,8 @@
 </th:block>
 
 <th:block th:fragment="footer">
+<!--    summernote-->
+
     <!-- Jquery JS-->
     <script th:src="@{/assets/vendor/jquery-3.2.1.min.js}"></script>
     <!-- Bootstrap JS-->

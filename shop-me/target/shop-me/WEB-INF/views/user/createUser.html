@@ -22,11 +22,7 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-12 col-md-12" th:if="${mess!=null}">
-                                    <div class="alert alert-success"><i th:text="${mess}"></i></div>
-                                </div>
-                            </div>
+
                             <div class="card-header">
                                 <a th:href="@{/user/listUser}">
                                     <button type="primary" class="btn btn-primary btn-sm">
@@ -45,9 +41,18 @@
                                                 <label class=" form-control-label">Name</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" th:field="*{nameUser}"
+                                                <input required type="text" th:field="*{nameUser}"
                                                        placeholder="Name"
                                                        class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('nameUser')}"
+                                                    th:errors="*{nameUser}">Name Error</h6>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -55,22 +60,77 @@
                                                 <label  class=" form-control-label">Gmail</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  th:field="*{gmailUser}"
+                                                <input required type="text"  th:field="*{gmailUser}"
                                                        placeholder="gmail"
                                                        class="form-control" multiple="multiple">
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('gmailUser')}"
+                                                    th:errors="*{gmailUser}">>Name Error</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label">Password</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input required type="password"  th:field="*{passWordUser}"
+                                                       placeholder="password"
+                                                       class="form-control" multiple="multiple">
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('passWordUser')}"
+                                                    th:errors="*{passWordUser}">Name Error</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
                                                 <label  class=" form-control-label">Nick name</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  th:field="*{nickname}"
+                                                <input required type="text"  th:field="*{nickname}"
                                                        placeholder="Nick Name"
                                                        class="form-control">
 
                                             </div>
                                         </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label class=" form-control-label">Province</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <select class="form-control" name="category"
+                                                        th:field="*{province.id}"
+                                                        required>
+                                                    <option value="">Vui lòng chọn ...</option>
+                                                    <option th:each="cat,rowstat : ${lisProvince}" th:value="${cat.id}" th:utext="${cat.provinceName}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('nickname')}"
+                                                    th:errors="*{nickname}">Name Error</h6>
+                                            </div>
+                                        </div>
+
                                         <div class="row form-group">
                                             <div class="col col-md-3">
                                                 <label  class=" form-control-label">Image</label>
@@ -83,6 +143,16 @@
                                                 <input type="hidden" th:field="*{imageUrl}"
                                                        placeholder="Name"
                                                        class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('imageUrl')}"
+                                                    th:errors="*{imageUrl}">Name Error</h6>
                                             </div>
                                         </div>
                                         <div class="card-footer">

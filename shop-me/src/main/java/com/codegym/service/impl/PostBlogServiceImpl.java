@@ -40,4 +40,9 @@ public class PostBlogServiceImpl implements PostBlogService {
     public void remove(Integer id) {
         postBlogRepository.deleteById(id);
     }
+
+    @Override
+    public Page<PostBlog> findAllByCategoryBlogIdOrderByPublishDateDesc(Integer id, Pageable pageable) {
+        return postBlogRepository.findAllByCategoryBlogIdOrderByPublishDateDesc(id,pageable);
+    }
 }

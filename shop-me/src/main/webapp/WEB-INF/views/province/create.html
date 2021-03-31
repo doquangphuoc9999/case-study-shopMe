@@ -55,15 +55,16 @@
                                                 <label for="text-input" class=" form-control-label">Name</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" id="text-input" th:field="*{provinceName}"
-                                                       placeholder="Name"
-                                                       class="form-control">
-                                                <div class="col-12 col-md-9">
-
-                                                    <div class="alert alert-warning"
-                                                          th:if="${#fields.hasErrors('provinceName')}"
-                                                          th:error="*{provinceName}"></div>
-                                                </div>
+                                                <input type="text" id="text-input" th:field="*{provinceName}" placeholder="Name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label"></label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <h6 style="color: red" class="alert alert-warning" th:if="${#fields.hasErrors('provinceName')}"
+                                                    th:errors="*{provinceName}">Name Error</h6>
                                             </div>
                                         </div>
                                         <div class="card-footer">
@@ -75,6 +76,7 @@
                                             </button>
                                         </div>
                                     </form>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +94,6 @@
         </div>
     </div>
 
-</div>
 
 
 <footer th:replace="layout::footer"></footer>

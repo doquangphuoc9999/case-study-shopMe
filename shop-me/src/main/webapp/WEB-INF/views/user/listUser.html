@@ -27,9 +27,9 @@
                                 </button>
                             </a>
                             <div class="row">
-                                <!--                                <div class="col-12 col-md-12" th:if="${message!=null}">-->
-                                <!--                                    <div class="alert alert-success"><i th:text="${message}"></i></div>-->
-                                <!--                                </div>-->
+                                <div class="col-12 col-md-12" th:if="${mess}">
+                                    <div class="alert alert-success"><i th:text="${mess}"></i></div>
+                                </div>
                             </div>
                         </div>
                         <div class="clear"></div>
@@ -44,6 +44,7 @@
                                         <th>Name</th>
                                         <th>Gmail</th>
                                         <th>Nick name</th>
+                                        <th>Province</th>
                                         <th>Images</th>
                                         <th>Action</th>
                                     </tr>
@@ -54,6 +55,7 @@
                                         <td th:text="${list.nameUser}"></td>
                                         <td th:text="${list.gmailUser}"></td>
                                         <td th:text="${list.nickname}"></td>
+                                        <td th:text="${list.province.provinceName}"></td>
                                         <td>
                                             <img style="width: 111px;" th:src="@{/upload/__${list.imageUrl}__}" alt="Images">
                                         </td>

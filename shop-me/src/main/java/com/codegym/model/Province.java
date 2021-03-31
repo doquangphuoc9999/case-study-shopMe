@@ -1,6 +1,8 @@
 package com.codegym.model;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 import org.springframework.validation.Errors;
@@ -8,11 +10,12 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
+@NoArgsConstructor
 @Table(name = "provinces")
 public class Province implements Validator {
     @Id
@@ -27,14 +30,9 @@ public class Province implements Validator {
     @OneToMany(mappedBy = "province")
     private List<Customer> customers;
 
-    public Province() {
-    }
 
-    public Province(Integer id, String provinceName, List<Customer> customers) {
-        this.id = id;
-        this.provinceName = provinceName;
-        this.customers = customers;
-    }
+    @OneToMany(mappedBy = "province")
+    private List<User> list = new ArrayList<>();
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -45,9 +43,9 @@ public class Province implements Validator {
     public void validate(Object o, Errors errors) {
         Province province = (Province) o;
         String name = province.getProvinceName();
-        ValidationUtils.rejectIfEmpty(errors, "provinceName","name.empty");
-        if (name.length()>15 || name.length()<5){
-            errors.rejectValue("provinceName", "name.length");
+        ValidationUtils.rejectIfEmpty(errors, "provinceName","nameProvince.empty");
+        if (name.length() < 3 || name.length() > 15){
+            errors.rejectValue("provinceName", "nameProvince.length");
         }
     }
 }

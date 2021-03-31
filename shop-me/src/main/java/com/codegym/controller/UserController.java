@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 import com.codegym.model.User;
+import com.codegym.service.impl.ProvinceServiceImpl;
 import com.codegym.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,12 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +29,9 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private ProvinceServiceImpl provinceService;
+
     @GetMapping("/listUser")
     public ModelAndView listUser(@PageableDefault(size = 8) Pageable pageable) {
         Page<User> listUser = userService.findAllByDeletedFalse(pageable);
@@ -37,15 +43,20 @@ public class UserController {
     @GetMapping("/createUser")
     public String createUser(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("lisProvince",provinceService.findAllByIsDeleteIsFalse());
         return "user/createUser";
     }
 
     @PostMapping("/addUser")
-    public String addUser(@ModelAttribute("user") User user,Model model, HttpServletRequest request) throws Exception {
+    public String addUser(@Valid @ModelAttribute("user") User user, RedirectAttributes model, HttpServletRequest request, BindingResult bindingResult) throws Exception {
+        new User().validate(user,bindingResult);
+        if (bindingResult.hasFieldErrors()){
+            return "user/createUser";
+        }
         String uploadRootPath = request.getServletContext().getRealPath("upload");
         File uploadRootDir = new File(uploadRootPath);
 
-        String uploadLocalPath = "E:\\Module-4\\New folder\\CaseStudyModule4\\CaseStudyM4\\shop-me\\src\\main\\webapp\\upload";
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
         File uploadLocalDir = new File(uploadLocalPath);
 
         // Tạo thư mục gốc upload nếu nó không tồn tại.
@@ -77,8 +88,8 @@ public class UserController {
             }
         }
         userService.save(user);
-        model.addAttribute("mess","add is success");
-        return "user/createUser";
+        model.addFlashAttribute("mess","add is success");
+        return "redirect:/user/listUser";
     }
 
     @GetMapping("/{id}/view")
@@ -106,7 +117,7 @@ public class UserController {
         String uploadRootPath = request.getServletContext().getRealPath("upload");
         File uploadRootDir = new File(uploadRootPath);
 
-        String uploadLocalPath = "E:\\Module-4\\New folder\\CaseStudyModule4\\CaseStudyM4\\shop-me\\src\\main\\webapp\\upload";
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
         File uploadLocalDir = new File(uploadLocalPath);
 
         // Tạo thư mục gốc upload nếu nó không tồn tại.

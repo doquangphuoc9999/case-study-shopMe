@@ -5,10 +5,15 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/categoryBlog/createCategory.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/categoryBlog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/categoryBlog/editCategory.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/categoryBlog" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/homePage/blogShop.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/homePage" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/homeShop/homeShop.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/homeShop" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog/addPost.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog/editPost.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog/listPost.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog/viewPost.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/postBlog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/createProduct.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/listProduct.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/province/create.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/province" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/listUser.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user" />
       </map>
     </option>

@@ -9,31 +9,36 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "products")
 @Where(clause = "deleted=false")
 @SQLDelete(sql = "UPDATE products SET deleted=true WHERE id=?")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
     private String productName;
 
     @Transient
     private CommonsMultipartFile[] image;
 
+    @Column(nullable = false)
     private String imageUrl;
 
+    @Column(nullable = false)
     private double price;
 
+    private LocalDateTime publishDate = LocalDateTime.now();
 
     private boolean deleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "idType", referencedColumnName = "id")
+    @JoinColumn(name = "idType", referencedColumnName = "id",nullable = false)
     private ProductType productType;
 
     public Product() {

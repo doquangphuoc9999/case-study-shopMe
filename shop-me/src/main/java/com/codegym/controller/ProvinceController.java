@@ -26,7 +26,7 @@ public class ProvinceController {
     @GetMapping("/listProvince")
     public ModelAndView listProvince() {
         Iterable<Province> provinceList = provinceService.findAllByIsDeleteIsFalse();
-        ModelAndView mav = new ModelAndView("province/list");
+        ModelAndView mav = new ModelAndView("province/listProvince");
         mav.addObject("provinceList", provinceList);
         return mav;
     }
@@ -39,16 +39,14 @@ public class ProvinceController {
     }
 
     @PostMapping("/saveProvince")
-    public String saveProvince(@Valid @ModelAttribute(value = "province") Province province, BindingResult bindingResult, Model model) {
+    public String saveProvince(@Valid @ModelAttribute(value = "province") Province province, BindingResult bindingResult, RedirectAttributes model) {
         new Province().validate(province, bindingResult);
         if (bindingResult.hasFieldErrors()) {
             return "province/create";
         }
-
         provinceService.saveOrUpdate(province);
-        model.addAttribute("message", "Create Province successfully");
-        model.addAttribute("province", new Province());
-        return "province/create";
+        model.addFlashAttribute("mess", "Create Province successfully");
+        return "redirect:/province/listProvince";
     }
 
     @GetMapping("/{id}/edit")
@@ -67,28 +65,23 @@ public class ProvinceController {
     @PostMapping("/editProvince")
     public String editProvince(Province province, RedirectAttributes redirectAttributes) {
         provinceService.saveOrUpdate(province);
-        redirectAttributes.addFlashAttribute("message", "Edit Province successfully");
+        redirectAttributes.addFlashAttribute("mess", "Edit Province successfully");
         return "redirect:/province/listProvince";
     }
 
     @GetMapping("/{id}/delete")
-    public ModelAndView formDeleteProvince(@PathVariable(value = "id") Integer id) {
-        Optional<Province> province = provinceService.findById(id);
-        ModelAndView mav;
-        if (province == null) {
-            mav = new ModelAndView("error");
-        } else {
-            mav = new ModelAndView("province/delete");
-            mav.addObject("province", province);
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+        Province province = provinceService.findById(id).get();
+        if (province != null){
+            province.setDelete(true);
+            provinceService.saveOrUpdate(province);
+            redirectAttributes.addFlashAttribute("mess", "delete is success");
+            return "redirect:/province/listProvince";
         }
-        return mav;
+        else {
+            return "error";
+        }
     }
 
-    @PostMapping("/deleteProvince")
-    public String deleteProvince(Province province, RedirectAttributes redirectAttributes) {
-        province.setDelete(true);
-        provinceService.saveOrUpdate(province);
-        redirectAttributes.addFlashAttribute("message", "Delete Province successfully");
-        return "redirect:/province/listProvince";
-    }
+
 }

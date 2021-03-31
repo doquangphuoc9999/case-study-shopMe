@@ -49,11 +49,11 @@ public class ProductController {
 
 //   thêm sp kèm upload file
     @PostMapping("/addPostProduct")
-    public String addCreateProduct(HttpServletRequest request,Model model, @ModelAttribute("product")Product product) throws Exception {
+    public String addCreateProduct(HttpServletRequest request,RedirectAttributes redirectAttributes, @ModelAttribute("product")Product product) throws Exception {
         String uploadRootPath = request.getServletContext().getRealPath("upload");
         File uploadRootDir = new File(uploadRootPath);
 
-        String uploadLocalPath = "E:\\Module-4\\New folder\\CaseStudyModule4\\CaseStudyM4\\shop-me\\src\\main\\webapp\\upload";
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
         File uploadLocalDir = new File(uploadLocalPath);
 
         // Tạo thư mục gốc upload nếu nó không tồn tại.
@@ -85,8 +85,8 @@ public class ProductController {
             }
         }
         productService.save(product);
-        model.addAttribute("mess", "add is success");
-        return "product/createProduct";
+        redirectAttributes.addFlashAttribute("mess", "add is success");
+        return "redirect:/product/listProduct";
     }
 
     @GetMapping("/{id}/view")
@@ -114,39 +114,41 @@ public class ProductController {
         String uploadRootPath = request.getServletContext().getRealPath("upload");
         File uploadRootDir = new File(uploadRootPath);
 
-        String uploadLocalPath = "E:\\Module-4\\New folder\\CaseStudyModule4\\CaseStudyM4\\shop-me\\src\\main\\webapp\\upload";
+        String uploadLocalPath = "E:\\Module-4\\case-module4\\shop-me\\src\\main\\webapp\\upload";
         File uploadLocalDir = new File(uploadLocalPath);
 
-        if (!uploadLocalDir.exists()){
-            uploadLocalDir.mkdir();
+        // Tạo thư mục gốc upload nếu nó không tồn tại.
+        if (!uploadRootDir.exists()){
+            uploadRootDir.mkdir();
         }
         CommonsMultipartFile[] files = product.getImage();
+//        Map<File, String> uploadFile = new HashMap<>();
         for (CommonsMultipartFile commonsMultipartFile : files){
-//          lấy tên file gốc phía client
+            // Tên file gốc tại Clien
             String name = commonsMultipartFile.getOriginalFilename();
-            if (name != null && name.length() > 0) {
+            if (name != null && name.length() > 0){
+                // Tạo file tại Server
                 File severFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
-//          Luồng ghi của dữ liệu vào sever
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(severFile));
-            stream.write(commonsMultipartFile.getBytes());
-            stream.close();
 
+                // Luồng ghi dữ liệu vào file trên Server
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(severFile));
+                stream.write(commonsMultipartFile.getBytes());
+                stream.close();
 
-//           file tại local
-            File localFile = new File(uploadLocalDir.getAbsolutePath() + File.separator + name);
-            BufferedOutputStream localStream = new BufferedOutputStream(new FileOutputStream(localFile));
-            localStream.write(commonsMultipartFile.getBytes());
-            localStream.close();
+                File localFile = new File(uploadLocalDir.getAbsolutePath() + File.separator + name);
 
-            product.setImageUrl(name);
+                // Luồng ghi dữ liệu vào file trên Server
+                BufferedOutputStream streamLocal = new BufferedOutputStream(new FileOutputStream(localFile));
+                streamLocal.write(commonsMultipartFile.getBytes());
+                streamLocal.close();
+
+                product.setImageUrl(name);
             }
         }
-        if (product != null){
+
             productService.save(product);
             model.addAttribute("mess","update is success");
             return "product/editProduct";
-        }
-        return "error";
     }
 
     @GetMapping("/{id}/delete")

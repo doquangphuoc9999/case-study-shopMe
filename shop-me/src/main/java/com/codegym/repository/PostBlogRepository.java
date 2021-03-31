@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostBlogRepository extends JpaRepository<PostBlog,Integer> {
     Page<PostBlog> findAllByDeletedFalse(Pageable pageable);
+
+    Page<PostBlog> findAllByCategoryBlogIdOrderByPublishDateDesc(Integer id, Pageable pageable);
 }

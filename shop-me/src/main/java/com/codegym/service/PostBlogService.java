@@ -15,4 +15,6 @@ public interface PostBlogService {
     void save(PostBlog postBlog);
 
     void remove(Integer id);
+
+    Page<PostBlog> findAllByCategoryBlogIdOrderByPublishDateDesc(Integer id, Pageable pageable);
 }

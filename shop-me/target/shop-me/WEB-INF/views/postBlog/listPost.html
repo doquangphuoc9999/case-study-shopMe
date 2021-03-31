@@ -34,6 +34,11 @@
                         </div>
                         <div class="clear"></div>
                         <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12" th:if="${mess}">
+                                    <div class="alert alert-success"><i th:text="${mess}"></i></div>
+                                </div>
+                            </div>
                             <!-- DATA TABLE -->
                             <h3 class="title-5 m-b-35" style="    margin-bottom: 0px;">List Post</h3>
                             <div class="table-responsive table-responsive-data2">
@@ -53,9 +58,9 @@
                                         <td th:text="${list.id}"></td>
                                         <td th:text="${list.title}"></td>
                                         <td>
-                                            <img style="width: 200px;" th:src="@{/upload/__${list.imageUrl}__}" alt="Images">
+                                            <img style="width: 100px;" th:src="@{/upload/__${list.imageUrl}__}" alt="Images">
                                         </td>
-                                        <td th:text="${#temporals.format(list.localDateTime, 'dd-MM-yyyy HH:mm')}"></td>
+                                        <td th:text="${#temporals.format(list.publishDate, 'dd-MM-yyyy HH:mm')}"></td>
                                         <td th:text="${list.user.nameUser}"></td>
                                         <td>
                                             <div class="table-data-feature">

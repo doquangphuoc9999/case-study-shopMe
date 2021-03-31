@@ -9,10 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -37,10 +39,14 @@ public class CategoryBlogController {
     }
 
     @PostMapping("/addCategory")
-    public String addCategory(@ModelAttribute("category") CategoryBlog categoryBlog, Model model){
+    public String addCategory(@Valid @ModelAttribute("category") CategoryBlog categoryBlog, BindingResult bindingResult, RedirectAttributes model){
+        new CategoryBlog().validate(categoryBlog,bindingResult);
+        if (bindingResult.hasFieldErrors()){
+            return "categoryBlog/createCategory";
+        }
         categoryService.save(categoryBlog);
-        model.addAttribute("mess","Add is success");
-        return "categoryBlog/createCategory";
+        model.addFlashAttribute("mess","Add is success");
+        return "redirect:/categoryBlog/listCategory";
     }
 
     @GetMapping("/{id}/view")

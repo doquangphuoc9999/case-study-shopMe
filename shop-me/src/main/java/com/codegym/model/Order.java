@@ -21,6 +21,10 @@ public class Order {
     @JoinColumn(name = "idCustomer")
     private Customer customer;
 
+    @ManyToOne
+    private User user;
+
+
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
 }
